@@ -64,8 +64,9 @@ toolbar will not show up on flatpages.
 ### Beware:
 
 The middleware provides its own url parsing rules. Do not add inclusion to the app's 
-url configuration to your own ROOT_URLCONF or very bad things gonna happen!
-Among others infinite loops on url parsing for each rule defined after the inclusion of
+url configuration to your own ROOT_URLCONF or very bad things gonna happen, unless 
+**CLIENT_ERRORS_TAG** is explicity set to False in settings!
+Among others: infinite loops on url parsing for each rule defined after the inclusion of
 'statistics_errors.urls' and, if you configured django for sending errors to your email
 while DEBUG=False, a lot of spam.
 
@@ -143,7 +144,7 @@ plugins = simplejson.loads(error.plugins)
 
 (The MIT License)
 
-Copyright (c) 2011-2012 Beau Sorensen <mail@beausorensen.com>
+Copyright (c) 2012-2013 Andrea Rossi <direlemming+github@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
