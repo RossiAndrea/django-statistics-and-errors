@@ -144,7 +144,7 @@ plugins = simplejson.loads(error.plugins)
 
 (The MIT License)
 
-Copyright (c) 2012-2013 Andrea Rossi <direlemming+github@gmail.com>
+Copyright (c) 2013 Andrea Rossi <direlemming+github@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
