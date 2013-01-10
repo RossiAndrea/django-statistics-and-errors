@@ -1,29 +1,29 @@
-# Django Client Errors
+# Django Client Statistics and Errors Logger
 
-Automatic tracking of javascript errors for Django. Sends error information back to the 
-server to be persisted in the database, uses jQuery if available to send all information, 
+Automatic tracking of javascript errors and client accesses for Django based on sorensen's Django Client Errors.
+Sends error and access data information back to the server to be persisted in the database, uses jQuery if available to send all information,
 falling back to a GET request to send limited information.
 
 
 ## Installation
 
 ```bash
-pip install django-client-errors
+pip install -e GIT+git://github.com/RossiAndrea/django-statistics-and-errors.git#egg=django-statistics-and-errors
 ````
 
-Alternatively, you can download the project and put the `client_errors` directory into 
+Alternatively, you can download the project and put the `statistics_errors` directory into 
 your project directory.
 
 Add the following app to your project's `INSTALLED_APPS` in the `settings.py` file:
 
 ````
-'client_errors',
+'statistics_errors',
 ````
 
 Add the following middleware to your project's `MIDDLEWARE_CLASSES` in the `settings.py` file:
 
 ````
-client_errors.middleware.ClientErrorMiddleware',
+statistics_errors.middleware.ClientErrorMiddleware',
 ````
 
 Since this module contains a model of its own, you must add it to the database schema:
@@ -37,10 +37,10 @@ however, this is best to use only if you have included the source code inside of
 Otherwise, it will attempt to add the migration to the egg directory.
 
 ````
-python manage.py schemamigration client_errors
+python manage.py schemamigration statistics_errors
 ````
 
-Note:
+### Note:
 
 Tying into middleware allows each panel to be instantiated on request and
 rendering to happen on response.
@@ -60,6 +60,14 @@ Note: Be aware of middleware ordering and other middleware that may
 intercept requests and return responses.  Putting the debug toolbar
 middleware *after* the Flatpage middleware, for example, means the
 toolbar will not show up on flatpages.
+
+### Beware:
+
+The middleware provides its own url parsing rules. Do not add inclusion to the app's 
+url configuration to your own ROOT_URLCONF or very bad things gonna happen!
+Among others infinite loops on url parsing for each rule defined after the inclusion of
+'statistics_errors.urls' and, if you configured django for sending errors to your email
+while DEBUG=False, a lot of spam.
 
 
 ## Usage
@@ -98,7 +106,7 @@ want to deserialize them first for better use.
 
 ```python
 from django.utils import simplejson
-from client_errors.models import UserError
+from statistics_errors.models import UserError
 
 error = UserError.objects.get(pk=1)
 locale = simplejson.loads(error.locale)
@@ -124,11 +132,11 @@ plugins = simplejson.loads(error.plugins)
 
 ## Configuration
 
-* `CLIENT_ERRORS_USER` the user model to connect the errors to (optional, default `django.contrib.auth.models.User`)
-* `CLIENT_ERRORS_AUTO` automatic URL injection (optional, default `True`)
-* `CLIENT_ERRORS_MEDIA_ROOT` directory to serve the JS media from (optional)
-* `CLIENT_ERRORS_TAG` chosen tag to prepend the javascript to (optional, default `</head>`)
-* `CLIENT_ERRORS_ENABLED` enable the module (optional, default `not DEBUG`)
+* `statistics_errors_USER` the user model to connect the errors to (optional, default `django.contrib.auth.models.User`)
+* `statistics_errors_AUTO` automatic URL injection (optional, default `True`)
+* `statistics_errors_MEDIA_ROOT` directory to serve the JS media from (optional)
+* `statistics_errors_TAG` chosen tag to prepend the javascript to (optional, default `</head>`)
+* `statistics_errors_ENABLED` enable the module (optional, default `not DEBUG`)
 
 
 ## License

@@ -1,8 +1,8 @@
 
 # Configuration
-APP = client_errors
+APP = statistics_errors
 COMPILER = ~/local/closure/compiler.jar
-JS_DIR = ./client_errors/media/client_errors
+JS_DIR = ./statistics_errors/static/js
 
 # Combine and minify all JS scripts
 # http://code.google.com/closure/compiler/

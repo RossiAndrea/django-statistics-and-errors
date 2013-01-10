@@ -3,7 +3,7 @@
 DATABASES = {
     'default' : {
         'ENGINE'         : 'django.db.backends.mysql',
-        'NAME'           : 'django_client_errors',
+        'NAME'           : 'django_statistics_errors',
         'HOST'           : 'localhost',
         'PORT'           : 3306,
         'USER'           : 'root',
@@ -14,5 +14,5 @@ DATABASES = {
 
 INSTALLED_APPS = (
     'south',
-    'client_errors'
+    'statistics_errors'
 )

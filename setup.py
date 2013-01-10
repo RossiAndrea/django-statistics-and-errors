@@ -5,20 +5,20 @@ try:
     from setuptools.core import setup
 except ImportError:
     from distutils.core import setup
-from client_errors import __version__
+from statistics_errors import __version__
 
 setup(
-    name='django-client-errors',
+    name='django-statistics-and-errors',
     version=__version__,
-    description='Automatic javascript error tracking with browser and device information.',
+    description='Automatic javascript error and client accesses tracking with browser and device information.',
     long_description=open('README.md').read(),
-    author='Beau Sorensen',
-    author_email='mail@beausorensen.com',
-    url='https://github.com/sorensen/django-client-errors',
-    download_url='https://github.com/sorensen/django-client-errors/downloads',
+    author='Andrea Rossi',
+    author_email='andrea.rossi@galliera.it',
+    url='https://github.com/RossiAndrea/django-statistics-and-errors',
+    download_url='https://github.com/RossiAndrea/django-statistics-and-errors/downloads',
     license='MIT',
     packages=[
-        'client_errors'
+        'django-statistics-and-errors'
     ],
     tests_require=[
         'django>=1.3,<1.5',
