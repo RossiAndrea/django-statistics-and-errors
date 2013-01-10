@@ -1,13 +1,10 @@
-
-import os
-
 from django.conf import settings
 from django.utils.encoding import smart_unicode
 from django.conf.urls.defaults import include
 from django.conf.urls.defaults import patterns
 from django.template.loader import render_to_string
 
-import client_errors.urls
+import statistics_errors.urls
 
 _HTML_TYPES = (
     'text/html', 
@@ -27,7 +24,7 @@ class ClientErrorMiddleware(object):
         self.tag = getattr(settings, 'CLIENT_ERRORS_TAG', u'</head>')
 
     def load_template(self, request):
-        return render_to_string('client_errors/base.html', {
+        return render_to_string('statistics_errors/base.html', {
             'BASE_URL': request.META.get('SCRIPT_NAME', ''),
         })
 
@@ -49,11 +46,11 @@ class ClientErrorMiddleware(object):
             # Workaround for debug_toolbar
             urlconf = getattr(request, 'urlconf', False)
             if urlconf:
-                client_errors.urls.urlpatterns += patterns('', ('', include(urlconf)),)
+                statistics_errors.urls.urlpatterns += patterns('', ('', include(urlconf)),)
             else:
-                client_errors.urls.urlpatterns += self.original_pattern
+                statistics_errors.urls.urlpatterns += self.original_pattern
             self.override_url = False
-        request.urlconf = 'client_errors.urls'
+        request.urlconf = 'statistics_errors.urls'
 
     def process_response(self, request, response):
         if not ENABLED: return response

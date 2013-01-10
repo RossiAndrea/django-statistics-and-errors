@@ -17,3 +17,4 @@ class UserError(models.Model):
     plugins     = models.CharField(max_length=128, blank=False, null=True)
     device      = models.CharField(max_length=256, blank=False, null=True)
     locale      = models.CharField(max_length=64, blank=False, null=True)
+    address     = models.GenericIPAddressField(protocol='both', unpack_ipv4=False, blank=False, null=True)
