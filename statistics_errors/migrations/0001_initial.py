@@ -9,7 +9,7 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         # Adding model 'UserError'
-        db.create_table('client_errors_usererror', (
+        db.create_table('statistics_errors_usererror', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('created_by', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], null=True, on_delete=models.SET_NULL)),
@@ -22,13 +22,14 @@ class Migration(SchemaMigration):
             ('plugins', self.gf('django.db.models.fields.CharField')(max_length=128, null=True)),
             ('device', self.gf('django.db.models.fields.CharField')(max_length=256, null=True)),
             ('locale', self.gf('django.db.models.fields.CharField')(max_length=64, null=True)),
+            ('address', self.gg('django.db.models.fileds.GenericIPAddressField')(protocol='both', unpack_ipv4=False, max_length=39, null=True)),
         ))
-        db.send_create_signal('client_errors', ['UserError'])
+        db.send_create_signal('statistics_errors', ['UserError'])
 
 
     def backwards(self, orm):
         # Deleting model 'UserError'
-        db.delete_table('client_errors_usererror')
+        db.delete_table('statistics_errors_usererror')
 
 
     models = {
@@ -61,7 +62,7 @@ class Migration(SchemaMigration):
             'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'}),
             'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
         },
-        'client_errors.usererror': {
+        'statistics_errors.usererror': {
             'Meta': {'object_name': 'UserError'},
             'browser': ('django.db.models.fields.CharField', [], {'max_length': '32', 'null': 'True'}),
             'created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
@@ -74,7 +75,8 @@ class Migration(SchemaMigration):
             'os': ('django.db.models.fields.CharField', [], {'max_length': '32', 'null': 'True'}),
             'plugins': ('django.db.models.fields.CharField', [], {'max_length': '128', 'null': 'True'}),
             'url': ('django.db.models.fields.CharField', [], {'max_length': '256', 'null': 'True'}),
-            'version': ('django.db.models.fields.CharField', [], {'max_length': '32', 'null': 'True'})
+            'version': ('django.db.models.fields.CharField', [], {'max_length': '32', 'null': 'True'}),
+            'address': ('django.db.models.fields.GenericIPAddressField', [], {'protocol': 'both', 'unpack_ipv4':'False','max_length': '39', 'null': 'True'}),
         },
         'contenttypes.contenttype': {
             'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
@@ -85,4 +87,4 @@ class Migration(SchemaMigration):
         }
     }
 
-    complete_apps = ['client_errors']
+    complete_apps = ['statistics_errors']
