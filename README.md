@@ -23,12 +23,12 @@ Add the following app to your project's `INSTALLED_APPS` in the `settings.py` fi
 Add the following middleware to your project's `MIDDLEWARE_CLASSES` in the `settings.py` file:
 
 ````
-statistics_errors.middleware.StatisticsErrorMiddleware',
+'statistics_errors.middleware.StatisticsErrorMiddleware',
 ````
 
 Since this module contains a model of its own, you must add it to the database schema:
 
-````
+```bash
 python manage.py syncdb
 ````
 
@@ -36,8 +36,16 @@ Or, if you are using `south` to manage your project, you can run the following c
 however, this is best to use only if you have included the source code inside of your project.
 Otherwise, it will attempt to add the migration to the egg directory.
 
-````
+```bash
 python manage.py schemamigration statistics_errors
+````
+
+After the database synchronization you have to collect static files into STATIC_ROOT.
+Personally I prefer symlinking file into STATIC_ROOT directory, so I don't have to run 
+again the command each time I modify a single static file.
+If you prefer copying the file, simply ommit the ***-l*** parameter in the following command.
+```bash
+python manage.py collectstatic -l
 ````
 
 ### Note:
