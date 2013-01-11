@@ -4,7 +4,7 @@ from django.conf.urls.defaults import patterns, url
 # collection. 
 _ERROR_PREFIX = '__error__'
 
-urlpatterns = patterns('client_errors.views',
+urlpatterns = patterns('statistics_errors.views',
     url(
         regex = r'^%s/client/$' % _ERROR_PREFIX,
         view  = 'error',

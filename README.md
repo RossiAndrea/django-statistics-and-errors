@@ -23,7 +23,7 @@ Add the following app to your project's `INSTALLED_APPS` in the `settings.py` fi
 Add the following middleware to your project's `MIDDLEWARE_CLASSES` in the `settings.py` file:
 
 ````
-statistics_errors.middleware.ClientErrorMiddleware',
+statistics_errors.middleware.StatisticsErrorMiddleware',
 ````
 
 Since this module contains a model of its own, you must add it to the database schema:
@@ -45,7 +45,7 @@ python manage.py schemamigration statistics_errors
 Tying into middleware allows each panel to be instantiated on request and
 rendering to happen on response.
 
-The order of MIDDLEWARE_CLASSES is important: the Client Error middleware
+The order of MIDDLEWARE_CLASSES is important: the Statistics and Error middleware
 must come after any other middleware that encodes the response's content
 (such as GZipMiddleware).
 

@@ -3,6 +3,7 @@ from django.utils.encoding import smart_unicode
 from django.conf.urls.defaults import include
 from django.conf.urls.defaults import patterns
 from django.template.loader import render_to_string
+from django.template import RequestContext
 
 import statistics_errors.urls
 
@@ -12,9 +13,9 @@ _HTML_TYPES = (
 )
 ENABLED = getattr(settings, 'CLIENT_ERRORS_ENABLED', not settings.DEBUG)
 
-class ClientErrorMiddleware(object):
+class StatisticsErrorMiddleware(object):
     """
-    Middleware to enable Client Errors routes on the request, and render the client 
+    Middleware to enable Statistics and Errors routes on the request, and render the client 
     error template on the response.
     """
     def __init__(self):
@@ -24,9 +25,9 @@ class ClientErrorMiddleware(object):
         self.tag = getattr(settings, 'CLIENT_ERRORS_TAG', u'</head>')
 
     def load_template(self, request):
-        return render_to_string('statistics_errors/base.html', {
-            'BASE_URL': request.META.get('SCRIPT_NAME', ''),
-        })
+        return render_to_string('statistics_errors/base.html', 
+            context_instance=RequestContext(request)
+        )
 
     def replace_insensitive(self, string, target, replacement):
         """

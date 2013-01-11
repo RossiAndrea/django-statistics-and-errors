@@ -1,7 +1,12 @@
 from django.http import HttpResponse
-from django.core.exceptions import DatabaseError, IntegrityError
+try:
+    from django.core.exceptions import DatabaseError, IntegrityError
+except ImportError:
+    # Are we using django 1.5? Let's import the exceptions from the 
+    # new location
+    from django.db.utils import DatabaseError, IntegrityError
 
-from client_errors.models import UserError
+from statistics_errors.models import UserError
 
 def _ip_address_finder(request, fallback = None):
     return request.META.get('HTTP_X_FORWARDED_FOR',
