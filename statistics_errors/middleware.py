@@ -11,7 +11,7 @@ _HTML_TYPES = (
     'text/html', 
     'application/xhtml+xml'
 )
-ENABLED = getattr(settings, 'CLIENT_ERRORS_ENABLED', not settings.DEBUG)
+ENABLED = getattr(settings, 'STATISTICS_ERRORS_ENABLED', not settings.DEBUG)
 
 class StatisticsErrorMiddleware(object):
     """
@@ -21,8 +21,9 @@ class StatisticsErrorMiddleware(object):
     def __init__(self):
         self.original_urlconf = settings.ROOT_URLCONF
         self.original_pattern = patterns('', ('', include(self.original_urlconf)),)
-        self.override_url = getattr(settings, 'CLIENT_ERRORS_AUTO', True)
-        self.tag = getattr(settings, 'CLIENT_ERRORS_TAG', u'</head>')
+        self.override_url = getattr(settings, 'STATISTICS_ERRORS_AUTO', True)
+        self.tag = getattr(settings, 'STATISTICS_ERRORS_TAG', u'</head>')
+        self.magic = getattr(settings, 'STATISTICS_ERRORS_MAGIC', True)
 
     def load_template(self, request):
         return render_to_string('statistics_errors/base.html', 
@@ -54,7 +55,7 @@ class StatisticsErrorMiddleware(object):
         request.urlconf = 'statistics_errors.urls'
 
     def process_response(self, request, response):
-        if not ENABLED: return response
+        if not ENABLED or not self.magic: return response
         
         if response['Content-Type'].split(';')[0] in _HTML_TYPES:
             response.content = self.replace_insensitive(

@@ -73,7 +73,7 @@ toolbar will not show up on flatpages.
 
 The middleware provides its own url parsing rules. Do not add inclusion to the app's 
 url configuration to your own ROOT_URLCONF or very bad things gonna happen, unless 
-**CLIENT_ERRORS_TAG** is explicity set to False in settings!
+**STATISTICS_ERRORS_TAG** is explicity set to False in settings!
 Among others: infinite loops on url parsing for each rule defined after the inclusion of
 'statistics_errors.urls' and, if you configured django for sending errors to your email
 while DEBUG=False, a lot of spam.
@@ -90,6 +90,7 @@ When an error occurs, the app will save the following information:
 * `os` user's operating system
 * `browser` user's browser
 * `version` user's browser version
+* `address` client's ip address (proxy aware)
 
 If jQuery is found on the page, the app will send the following information as 
 serialized JSON (not sent otherwise due to URL size constraints)
@@ -137,15 +138,17 @@ plugins = simplejson.loads(error.plugins)
 * `plugins` {"flash":true,"silverlight":false,"java":true,"quicktime":true}
 * `device` {"screen":{"width":1280,"height":1024},"viewport":{"width":1308,"height":386},"is_tablet":false,"is_phone":false,"is_mobile":false}
 * `locale` {"country":"us","lang":"en"}
+* `address` 127.0.0.1
 
 
 ## Configuration
 
-* `statistics_errors_USER` the user model to connect the errors to (optional, default `django.contrib.auth.models.User`)
-* `statistics_errors_AUTO` automatic URL injection (optional, default `True`)
-* `statistics_errors_MEDIA_ROOT` directory to serve the JS media from (optional)
-* `statistics_errors_TAG` chosen tag to prepend the javascript to (optional, default `</head>`)
-* `statistics_errors_ENABLED` enable the module (optional, default `not DEBUG`)
+* `STATISTICS_ERRORS_USER` the user model to connect the errors to (optional, default `django.contrib.auth.models.User`)
+* `STATISTICS_ERRORS_AUTO` automatic URL injection (optional, default `True`)
+* `STATISTICS_ERRORS_MEDIA_ROOT` directory to serve the JS media from (optional)
+* `STATISTICS_ERRORS_TAG` chosen tag to prepend the javascript to (optional, default `</head>`)
+* `STATISTICS_ERRORS_ENABLED` enable the module (optional, default `not DEBUG`)
+* `STATISTICS_ERRORS_MAGIC` automatic javascript injection in template (optional, default `True`)
 
 
 ## License
