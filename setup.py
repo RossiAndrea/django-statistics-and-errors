@@ -18,7 +18,7 @@ setup(
     download_url='https://github.com/RossiAndrea/django-statistics-and-errors/downloads',
     license='MIT',
     packages=[
-        'django-statistics-and-errors'
+        'statistics_errors'
     ],
     tests_require=[
         'django>=1.3',
