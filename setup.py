@@ -21,7 +21,7 @@ setup(
         'django-statistics-and-errors'
     ],
     tests_require=[
-        'django>=1.3,<1.5',
+        'django>=1.3',
     ],
     # test_suite='runtests.runtests',
     include_package_data=True,
