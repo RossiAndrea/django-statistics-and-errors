@@ -3,8 +3,8 @@
 // ---------------------
 
 // (The MIT License)
-// Copyright (c) 2011-2012 Beau Sorensen <mail@beausorensen.com>
-// For details see https://github.com/sorensen/django_client_errors
+// Copyright (c) 2013 Andrea Rossi <direlemming+github@gmail.com>
+// For details see https://github.com/RossiAndrea/django-statistics-and-errors
 
 ;(function(win, nav, $) {
   'use strict'
@@ -134,6 +134,24 @@
       return device
     }
 
+  , get: function() {
+      var querystring = window.location.href.split("?")[1];
+      if ( ! querystring ) return null;
+
+      var stuff = Array();
+      stuff.push(querystring.split("&"));
+      console.log(stuff);
+
+      var querydict = {}
+
+      for ( var index in stuff){
+          var item = stuff[index];
+          var kv = item[0].split("=");
+          querydict[kv[0]] = kv[1];
+      }
+
+      return querydict
+  }
   , plugins: function() {
       var check_plugin = function(name) {
         if (nav.plugins) {
@@ -197,4 +215,43 @@
     }
   }
 
+  // Attach on load method
+  window.onload = function(){
+    var href = win.clientErrorUrl || '/__statistic__/client/'
+      , browser = modules.browser()
+      , device = JSON.stringify(modules.device())
+      , plugins = JSON.stringify(modules.plugins())
+      , locale = JSON.stringify(modules.locale())
+      , get = JSON.stringify(modules.get())
+      , url = window.location.href
+
+    if ($) {
+      // Post if available
+      $.post(href, {
+        os: browser.os
+      , bw: browser.browser
+      , vs: browser.version
+      , plugins: plugins
+      , locale: locale
+      , device: device
+      , get: get
+      , post: post
+      , url: url
+      })
+    } else {
+      // Image GET fallback, plugins, locale, and device not used
+      // to save on URL size limit
+      new Image().src = href
+        + '&os=' + browser.os
+        + '&bw=' + browser.browser
+        + '&vs=' + browser.version
+        + '&plugins=' + plugins
+        + '&locale=' + locale
+        + '&device=' + device
+        + '&get=' + get
+        + '&post=' + post
+        + '&url=' + url
+    }
+
+  }
 })(window, navigator, window.jQuery || window.Zepto);

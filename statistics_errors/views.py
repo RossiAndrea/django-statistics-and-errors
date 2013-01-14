@@ -6,7 +6,8 @@ except ImportError:
     # new location
     from django.db.utils import DatabaseError, IntegrityError
 
-from statistics_errors.models import UserError
+from statistics_errors.models import UserError, UserStatistic
+from json import dumps
 
 def _ip_address_finder(request, fallback = None):
     return request.META.get('HTTP_X_FORWARDED_FOR',
@@ -34,6 +35,34 @@ def error(request, *args, **kwargs):
             plugins    = data.get('plugins'),
             locale     = data.get('locale'),
             address    = _ip_address_finder(request),
+        )
+        return HttpResponse(status=200)
+    except (DatabaseError, IntegrityError):
+        return HttpResponse(status=500)
+
+def statistic(request, *args, **kwargs):
+    data = request.GET.copy()
+    if request.method == 'POST':
+        data = request.POST.copy()
+
+    user = None
+    if request.user.is_authenticated():
+        user = request.user
+
+    try:
+        UserStatistic.objects.create(
+            created_by  = user,
+            url         = data.get('url'),
+            os          = data.get('os'),
+            browser     = data.get('bw'),
+            version     = data.get('vs'),
+            device      = data.get('device'),
+            plugins     = data.get('plugins'),
+            locale      = data.get('locale'),
+            address     = _ip_address_finder(request),
+            referer     = request.META.get('HTTP_REFERER', None),
+            querydict   = dumps({ 'POST': data.get('post'),
+                'GET': data.get('get') })
         )
         return HttpResponse(status=200)
     except (DatabaseError, IntegrityError):

@@ -1,2 +1,4 @@
-
-<script type="text/javascript" src="{{ STATIC_URL }}js/client-errors.min.js"></script>
+<script type="text/javascript">
+    var post = "{{ request.POST.dict|safe }}";
+</script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/statistics-errors.js"></script>
