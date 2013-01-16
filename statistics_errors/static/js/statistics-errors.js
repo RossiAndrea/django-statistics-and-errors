@@ -140,7 +140,6 @@
 
       var stuff = Array();
       stuff.push(querystring.split("&"));
-      console.log(stuff);
 
       var querydict = {}
 
