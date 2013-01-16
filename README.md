@@ -80,6 +80,7 @@ while DEBUG=False, a lot of spam.
 
 
 ## Usage
+### User Error
 
 When an error occurs, the app will save the following information:
 
@@ -99,6 +100,26 @@ serialized JSON (not sent otherwise due to URL size constraints)
 * `device` user's device information
 * `locale` user's country and language
 
+### User Stastistic
+
+When a page is accessed, the app will save the following information:
+
+* `created` current timestamp
+* `url` where the error occurred
+* `os` user's operating system
+* `browser` user's browser
+* `version` user's browser version
+* `address` client's ip address (proxy aware)
+* `referer` if present, the referer url
+
+If jQuery is found on the page, the app will send the following information as 
+serialized JSON (not sent otherwise due to URL size constraints)
+
+* `plugins` list of browser enabled plugins
+* `device` user's device information
+* `locale` user's country and language
+* `querydict` POST and GET data sent to the page
+
 
 ## Example
 
@@ -109,6 +130,15 @@ from models import User
 
 user = User.objects.get(pk=1)
 errors = user.usererror_set.all()
+````
+
+or do something like this to access the user's statistics:
+
+```python
+from models import User
+
+user = User.objects.get(pk=1)
+stats = user.userstatistic_set.all()
 ````
 
 If you want to access the `plugins`, `device`, or `locale` fields, you will likely
@@ -124,9 +154,9 @@ device = simplejson.loads(error.device)
 plugins = simplejson.loads(error.plugins)
 ````
 
-
 ## Output
 
+### User Error
 * `created` 2012-06-16 11:05:56
 * `created_by_id` 1   
 * `message` Uncaught ReferenceError: foo is not defined    
@@ -140,6 +170,19 @@ plugins = simplejson.loads(error.plugins)
 * `locale` {"country":"us","lang":"en"}
 * `address` 127.0.0.1
 
+### User Statistic
+* `created` 2012-06-16 11:05:56
+* `created_by_id` 1   
+* `url` http://localhost:8000/some_page/
+* `os` Mac 
+* `browser` Chrome
+* `version` 19.0.1084.54
+* `plugins` {"flash":true,"silverlight":false,"java":true,"quicktime":true}
+* `device` {"screen":{"width":1280,"height":1024},"viewport":{"width":1308,"height":386},"is_tablet":false,"is_phone":false,"is_mobile":false}
+* `locale` {"country":"us","lang":"en"}
+* `address` 127.0.0.1
+* `referer` http://localthost:8000/some_other_page/
+* `querydict` { "GET": { "foo": "bar" }, "POST": { "baz": "zab", "rab": 1 } }
 
 ## Configuration
 
