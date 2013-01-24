@@ -8,7 +8,8 @@
 
 ;(function(win, nav, $) {
   'use strict'
-  
+
+  var doc = document;
   // Browser detection below taken from session.js 0.4.1
   // (c) 2012 Iain, CodeJoust
   // For details, see: https://github.com/codejoust/session.js
