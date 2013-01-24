@@ -56,7 +56,10 @@ class StatisticsErrorMiddleware(object):
 
     def process_response(self, request, response):
         if not ENABLED or not self.magic: return response
-        
+        # Compatibility with StreamingHttpResponse. In case of streaming just 
+        # returns the response
+        if response.streaming: return response
+
         if response['Content-Type'].split(';')[0] in _HTML_TYPES:
             response.content = self.replace_insensitive(
                 string      = smart_unicode(response.content), 
