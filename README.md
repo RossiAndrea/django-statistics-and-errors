@@ -192,6 +192,8 @@ plugins = simplejson.loads(error.plugins)
 * `STATISTICS_ERRORS_TAG` chosen tag to prepend the javascript to (optional, default `</head>`)
 * `STATISTICS_ERRORS_ENABLED` enable the module (optional, default `not DEBUG`)
 * `STATISTICS_ERRORS_MAGIC` automatic javascript injection in template (optional, default `True`)
+* `STATISTICS_ERRORS_DATE_FORMAT` date object string representation format (optional, default `%c`)
+* `STATISTICS_ERRORS_DATETIME_FORMAT` datetime object string representation format (optional, default `%c`)
 
 
 ## License
