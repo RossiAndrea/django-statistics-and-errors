@@ -242,7 +242,7 @@
       // Image GET fallback, plugins, locale, and device not used
       // to save on URL size limit
       new Image().src = href
-        + '&os=' + browser.os
+        + '?os=' + browser.os
         + '&bw=' + browser.browser
         + '&vs=' + browser.version
         + '&plugins=' + plugins
